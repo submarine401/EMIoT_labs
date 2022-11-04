@@ -1,0 +1,2 @@
+RUN DPM SIMULATION
+./dpm_simulator -t 20 -psm example/psm.txt -wl example/wl.txt
