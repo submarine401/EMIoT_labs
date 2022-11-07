@@ -53,3 +53,6 @@ dkms.conf
 
 # Binary files
 lab1/dpm-simulator/dpm_simulator
+
+# VSCode Setup Files
+*.json

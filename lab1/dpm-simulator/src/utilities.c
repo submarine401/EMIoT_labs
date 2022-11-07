@@ -18,6 +18,20 @@ int parse_args(int argc, char *argv[], char *fwl, psm_t *psm, dpm_policy_t
             if(argc > cur + 1) {
                 tparams->timeout = atof(argv[++cur]);
             }
+            
+            else return	0;
+        }
+
+        // set policy to timeout_idle_sleep and get the 2 timeouts
+        if(strcmp(argv[cur], "-tis") == 0) {
+            *selected_policy = DPM_TIMEOUT_IDLE_SLEEP;
+            if(argc > cur + 1) {
+                tparams->to_sleep_flag = 0;
+                tparams->timeout = atof(argv[++cur]);
+                tparams->timeout_sleep = atof(argv[++cur]);
+                printf("timeout params: %f %f %d\n", tparams->timeout,tparams->timeout_sleep, tparams->to_sleep_flag);
+            }
+            
             else return	0;
         }
 

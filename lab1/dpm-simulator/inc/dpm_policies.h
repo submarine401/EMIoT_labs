@@ -34,6 +34,8 @@
 #define DPM_TIMEOUT 0
 /** history-based policy */
 #define DPM_HISTORY 1
+/*timeout policy including both sleep and idle state*/
+#define DPM_TIMEOUT_IDLE_SLEEP 2
 /** @} */
 
 /** Type alias for DPM policy IDs */
@@ -45,6 +47,8 @@ typedef int dpm_policy_t;
 typedef struct {
     /* Day2: you can add/change stuff here */
     psm_time_t timeout;
+    psm_time_t timeout_sleep;
+    int to_sleep_flag;     //required for transitions from idle to sleep
 } dpm_timeout_params;
 
 /**
