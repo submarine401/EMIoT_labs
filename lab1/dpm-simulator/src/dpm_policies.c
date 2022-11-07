@@ -110,7 +110,6 @@ int dpm_simulate(psm_t psm, dpm_policy_t sel_policy, dpm_timeout_params tparams,
                     if (!psm_tran_allowed(psm, prev_state, curr_state))
                     {
                         printf("[error] prohibited transition!\n");
-                        printf("%d %d\n", curr_state, prev_state);
                         return 0;
                     }
                     // takes into account transition overheads in term of energy
@@ -141,7 +140,6 @@ int dpm_simulate(psm_t psm, dpm_policy_t sel_policy, dpm_timeout_params tparams,
         dpm_update_history(history, t_curr - t_inactive_start);
 
         // 2. Active phase
-        printf("--going to run again--\n");
         curr_state = PSM_STATE_RUN;
         if (curr_state != prev_state)
         {
@@ -201,8 +199,8 @@ int dpm_decide_state(psm_state_t *next_state, psm_state_t prev_state, psm_time_t
         /* Day 2: EDIT */
         if (t_curr >= t_inactive_start + tparams.timeout)
         {
-            *next_state = PSM_STATE_IDLE;
-            //*next_state = PSM_STATE_SLEEP;
+            //*next_state = PSM_STATE_IDLE;
+            *next_state = PSM_STATE_SLEEP;
         }
         else
         {
@@ -216,21 +214,16 @@ int dpm_decide_state(psm_state_t *next_state, psm_state_t prev_state, psm_time_t
         break;
 
     case DPM_TIMEOUT_IDLE_SLEEP:
-        if (t_curr >= t_inactive_start + tparams.timeout_sleep)
+        if (t_curr >= t_inactive_start + tparams.timeout_sleep && prev_state == PSM_STATE_IDLE)
         {
-            if (tmp_flag)
-            {
-                // printf("--GOING SLEEP--\n");
-                *next_state = PSM_STATE_SLEEP;
-                tparams.to_sleep_flag = 0;
-            }
-            else
-            {
-                // printf("--GOING TO RUN BEFORE SLEEP--\n");
-                *next_state = PSM_STATE_RUN;
-                tparams.to_sleep_flag = 1;
-                tmp_flag = 1;
-            }
+            *next_state = PSM_STATE_RUN;
+            tparams.to_sleep_flag = 1;
+            tmp_flag = 1;
+        }
+        else if (t_curr >= t_inactive_start + tparams.timeout_sleep && prev_state != PSM_STATE_IDLE)
+        {
+            *next_state = PSM_STATE_SLEEP;
+            tmp_flag = 0;
         }
         else if (t_curr >= t_inactive_start + tparams.timeout)
         {
