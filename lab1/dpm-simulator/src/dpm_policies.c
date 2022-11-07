@@ -97,7 +97,8 @@ int dpm_simulate(psm_t psm, dpm_policy_t sel_policy, dpm_timeout_params tparams,
             }
             prev_state = curr_state;
 
-            // if (tparams.to_sleep_flag)
+            // when IDLE-RUN-SLEEP transition flag is set, adds an additional call to dpm_decide_state() method
+            //      to force the transition back to RUN state before SLEEP state
             if (tmp_flag)
             {
                 if (!dpm_decide_state(&curr_state, prev_state, t_curr, t_inactive_start, history, sel_policy, tparams, hparams))
@@ -213,25 +214,28 @@ int dpm_decide_state(psm_state_t *next_state, psm_state_t prev_state, psm_time_t
         *next_state = PSM_STATE_RUN;
         break;
 
+    // DPM Timeout Policy which uses both IDLE and SLEEP states
     case DPM_TIMEOUT_IDLE_SLEEP:
         if (t_curr >= t_inactive_start + tparams.timeout_sleep && prev_state == PSM_STATE_IDLE)
         {
-            *next_state = PSM_STATE_RUN;
-            tparams.to_sleep_flag = 1;
-            tmp_flag = 1;
+            // when SLEEP timeout expires and system is in IDLE state
+            *next_state = PSM_STATE_RUN;    // goes back to RUN state before SLEEP 
+            tmp_flag = 1;   // sets IDLE-RUN-SLEEP transition flag
         }
         else if (t_curr >= t_inactive_start + tparams.timeout_sleep && prev_state != PSM_STATE_IDLE)
         {
-            *next_state = PSM_STATE_SLEEP;
-            tmp_flag = 0;
+            // when SLEEP timeout expires and system is NOT in IDLE state anymore
+            *next_state = PSM_STATE_SLEEP;  // goes to SLEEP
+            tmp_flag = 0;   // resets IDLE-RUN-SLEEP transition flag
         }
         else if (t_curr >= t_inactive_start + tparams.timeout)
         {
-            // printf("--GOING IDLE--\n");
+            // when IDLE timeout expires goes to IDLE
             *next_state = PSM_STATE_IDLE;
         }
         else
         {
+            // if no timeout is expired keeps system in RUN state
             *next_state = PSM_STATE_RUN;
         }
         break;
