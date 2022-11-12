@@ -226,7 +226,6 @@ int dpm_decide_state(psm_state_t *next_state, psm_state_t prev_state, psm_time_t
         {
             //go to idle if the last active time is between the highest threshold and the "idle" threshold
             *next_state = PSM_STATE_IDLE;
-
             /********************FOR DEBUGGING PURPOSES**********************/
             //printf("--going IDLE--\n");
             //printf("history now is %f\n",history[0]);
