@@ -138,7 +138,10 @@ int dpm_simulate(psm_t psm, dpm_policy_t sel_policy, dpm_timeout_params tparams,
         }
 
         // update history based on last inactive time (this can be placed elsewhere depending on your policy)
-        dpm_update_history(history, t_curr - t_inactive_start);
+        // dpm_update_history(history, t_curr - t_inactive_start);
+
+        // update history with the last active time
+        dpm_update_history(history, work_queue[next_work_item].duration);
 
         // 2. Active phase
         curr_state = PSM_STATE_RUN;
@@ -158,6 +161,7 @@ int dpm_simulate(psm_t psm, dpm_policy_t sel_policy, dpm_timeout_params tparams,
             t_curr += t_tran;
             prev_state = PSM_STATE_RUN;
         }
+
         // do the queued work (there could be more than one item queued due to accumulated delays)
         while (next_work_item < num_work_items && t_curr >= work_queue[next_work_item].arrival)
         {
@@ -185,6 +189,7 @@ int dpm_simulate(psm_t psm, dpm_policy_t sel_policy, dpm_timeout_params tparams,
     printf("[sim] Energy for transitions = %.10fJ\n", e_tran_total * PSM_ENERGY_UNIT);
     printf("[sim] Tot. Energy w/o DPM = %.10fJ, Tot. Energy w DPM = %.10fJ\n",
            e_total_no_dpm * PSM_ENERGY_UNIT, e_total * PSM_ENERGY_UNIT);
+    //printf("thresholds and params: %f %f %f\n",hparams.alpha[0],hparams.threshold[0], hparams.threshold[1]);
     return 1;
 }
 
@@ -211,7 +216,26 @@ int dpm_decide_state(psm_state_t *next_state, psm_state_t prev_state, psm_time_t
 
     case DPM_HISTORY:
         /* Day 3: EDIT */
-        *next_state = PSM_STATE_RUN;
+        //printf("history value is %f\n",history[0]);
+        if (history[0] > hparams.threshold[1])
+        {
+            //when the last active time is greater than the highest threshold ("sleep" threshold) go to sleep (a long idle interval has came up)
+            *next_state = PSM_STATE_SLEEP;
+        }
+        else if (history[0] >= hparams.threshold[0] && history[0] <= hparams.threshold[1])
+        {
+            //go to idle if the last active time is between the highest threshold and the "idle" threshold
+            *next_state = PSM_STATE_IDLE;
+
+            /********************FOR DEBUGGING PURPOSES**********************/
+            //printf("--going IDLE--\n");
+            //printf("history now is %f\n",history[0]);
+        }
+        else
+        {
+            //remain in run state
+            *next_state = PSM_STATE_RUN;
+        }
         break;
 
     // DPM Timeout Policy which uses both IDLE and SLEEP states
@@ -219,14 +243,14 @@ int dpm_decide_state(psm_state_t *next_state, psm_state_t prev_state, psm_time_t
         if (t_curr >= t_inactive_start + tparams.timeout_sleep && prev_state == PSM_STATE_IDLE)
         {
             // when SLEEP timeout expires and system is in IDLE state
-            *next_state = PSM_STATE_RUN;    // goes back to RUN state before SLEEP 
-            tmp_flag = 1;   // sets IDLE-RUN-SLEEP transition flag
+            *next_state = PSM_STATE_RUN; // goes back to RUN state before SLEEP
+            tmp_flag = 1;                // sets IDLE-RUN-SLEEP transition flag
         }
         else if (t_curr >= t_inactive_start + tparams.timeout_sleep && prev_state != PSM_STATE_IDLE)
         {
             // when SLEEP timeout expires and system is NOT in IDLE state anymore
-            *next_state = PSM_STATE_SLEEP;  // goes to SLEEP
-            tmp_flag = 0;   // resets IDLE-RUN-SLEEP transition flag
+            *next_state = PSM_STATE_SLEEP; // goes to SLEEP
+            tmp_flag = 0;                  // resets IDLE-RUN-SLEEP transition flag
         }
         else if (t_curr >= t_inactive_start + tparams.timeout)
         {
