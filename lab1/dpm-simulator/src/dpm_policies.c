@@ -1,6 +1,6 @@
 #include "inc/dpm_policies.h"
 
-int tmp_flag = 0;
+int idle_sleep_flag = 0;
 
 // critical function called by the main to run the simulation
 int dpm_simulate(psm_t psm, dpm_policy_t sel_policy, dpm_timeout_params tparams, dpm_history_params hparams, char *fwl)
@@ -99,7 +99,7 @@ int dpm_simulate(psm_t psm, dpm_policy_t sel_policy, dpm_timeout_params tparams,
 
             // when IDLE-RUN-SLEEP transition flag is set, adds an additional call to dpm_decide_state() method
             //      to force the transition back to RUN state before SLEEP state
-            if (tmp_flag)
+            if (idle_sleep_flag)
             {
                 if (!dpm_decide_state(&curr_state, prev_state, t_curr, t_inactive_start, history, sel_policy, tparams, hparams))
                 {
@@ -243,13 +243,13 @@ int dpm_decide_state(psm_state_t *next_state, psm_state_t prev_state, psm_time_t
         {
             // when SLEEP timeout expires and system is in IDLE state
             *next_state = PSM_STATE_RUN; // goes back to RUN state before SLEEP
-            tmp_flag = 1;                // sets IDLE-RUN-SLEEP transition flag
+            idle_sleep_flag = 1;                // sets IDLE-RUN-SLEEP transition flag
         }
         else if (t_curr >= t_inactive_start + tparams.timeout_sleep && prev_state != PSM_STATE_IDLE)
         {
             // when SLEEP timeout expires and system is NOT in IDLE state anymore
             *next_state = PSM_STATE_SLEEP; // goes to SLEEP
-            tmp_flag = 0;                  // resets IDLE-RUN-SLEEP transition flag
+            idle_sleep_flag = 0;                  // resets IDLE-RUN-SLEEP transition flag
         }
         else if (t_curr >= t_inactive_start + tparams.timeout)
         {
