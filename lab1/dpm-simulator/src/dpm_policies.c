@@ -189,7 +189,7 @@ int dpm_simulate(psm_t psm, dpm_policy_t sel_policy, dpm_timeout_params tparams,
     printf("[sim] Energy for transitions = %.10fJ\n", e_tran_total * PSM_ENERGY_UNIT);
     printf("[sim] Tot. Energy w/o DPM = %.10fJ, Tot. Energy w DPM = %.10fJ\n",
            e_total_no_dpm * PSM_ENERGY_UNIT, e_total * PSM_ENERGY_UNIT);
-    //printf("thresholds and params: %f %f %f\n",hparams.alpha[0],hparams.threshold[0], hparams.threshold[1]);
+    printf("thresholds and params: %f %f\n",hparams.threshold[0], hparams.threshold[1]);
     return 1;
 }
 
