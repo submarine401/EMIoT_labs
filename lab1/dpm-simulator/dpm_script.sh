@@ -16,8 +16,9 @@ usage_info() {
     echo "      -destination file tag"
     echo "          string to be attached to default filename"
     echo "      -setting"
-    echo "          ri : read-idle setting"
-    echo "          rs : read-sleep setting"
+    echo "          ri  : run-idle setting"
+    echo "          rs  : run-sleep setting"
+    echo "          ris : run-idle-sleep setting (extra)"
 }
 
 if [[ $# -lt 2 ]]
@@ -34,6 +35,9 @@ then
 elif [[ $2 = "rs" ]]
 then
     dest_filename="dpmres_wl${1}_run_sleep.txt";  # RUN-SLEEP POLICY setup
+elif [[ $2 = "ris" ]]
+then
+    dest_filename="dpmres_wl${1}_run_idle_sleep.txt";  # RUN-IDLE-SLEEP POLICY setup (extra)
 else
     echo "[ERROR]: missing or wrong argument."
     usage_info
@@ -54,7 +58,12 @@ for ((i=0; i < $fine_iter; i++));
 do
     prog $((i+1)) $fine_iter Fine-grained phase
 	echo -n "$((i)) " >> $dest_filename
-	./dpm_simulator -t $((i)) -psm example/psm.txt -wl ../workloads/workload_${1}.txt | grep -o "Energy w DPM = "[0-9]*.[0-9]* | grep -o "[0-9]*.[0-9]*$" >> $dest_filename
+    if [[ $2 = "ris" ]]
+    then
+        ./dpm_simulator -tis 0 $((i)) -psm example/psm.txt -wl ../workloads/workload_${1}.txt | grep -o "Energy w DPM = "[0-9]*.[0-9]* | grep -o "[0-9]*.[0-9]*$" >> $dest_filename
+    else
+        ./dpm_simulator -t $((i)) -psm example/psm.txt -wl ../workloads/workload_${1}.txt | grep -o "Energy w DPM = "[0-9]*.[0-9]* | grep -o "[0-9]*.[0-9]*$" >> $dest_filename
+    fi
 done
 
 printf "\nDone.\n\n"
@@ -64,7 +73,12 @@ for ((i=1; i <= $coarse_iter; i++));
 do
     prog "$i" $coarse_iter Coarse-grained phase
     echo -n "$((i*1000)) " >> $dest_filename
-    ./dpm_simulator -t $((i*1000)) -psm example/psm.txt -wl ../workloads/workload_${1}.txt | grep -o "Energy w DPM = "[0-9]*.[0-9]* | grep -o "[0-9]*.[0-9]*$" >> $dest_filename 
+    if [[ $2 = "ris" ]]
+    then
+        ./dpm_simulator -tis 0 $((i*1000)) -psm example/psm.txt -wl ../workloads/workload_${1}.txt | grep -o "Energy w DPM = "[0-9]*.[0-9]* | grep -o "[0-9]*.[0-9]*$" >> $dest_filename 
+    else
+        ./dpm_simulator -t $((i*1000)) -psm example/psm.txt -wl ../workloads/workload_${1}.txt | grep -o "Energy w DPM = "[0-9]*.[0-9]* | grep -o "[0-9]*.[0-9]*$" >> $dest_filename 
+    fi
 done
 
 printf "\nDone.\n\n"
