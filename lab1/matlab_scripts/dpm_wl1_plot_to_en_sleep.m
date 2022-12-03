@@ -1,4 +1,4 @@
-%% DPM - WORKLOAD 1 - RUN/IDLE
+%% DPM - WORKLOAD 1 - RUN/SLEEP
 % data extraction from file
 DPM_data = dlmread('dpmres_wl1_run_sleep.txt');
 timeout = DPM_data(:,1);

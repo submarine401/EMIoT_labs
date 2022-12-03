@@ -202,7 +202,7 @@ int dpm_decide_state(psm_state_t *next_state, psm_state_t prev_state, psm_time_t
     {
 
     case DPM_TIMEOUT:
-        /* Day 2: EDIT */
+
         if (t_curr >= t_inactive_start + tparams.timeout)
         {
             //*next_state = PSM_STATE_IDLE;
@@ -215,7 +215,7 @@ int dpm_decide_state(psm_state_t *next_state, psm_state_t prev_state, psm_time_t
         break;
 
     case DPM_HISTORY:
-        /* Day 3: EDIT */
+        
         //printf("history value is %f\n",history[0]);
         if (history[0] > hparams.threshold[1])
         {

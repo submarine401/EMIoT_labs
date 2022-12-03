@@ -1,5 +1,5 @@
 #!/bin/bash
-#simple script for automatizing simulation of the timeout DPM policy
+#simple script for automatizing simulation of the history-based DPM policy
 
 # simple progress bar function
 prog() {
@@ -12,20 +12,17 @@ prog() {
 
 # prints usage info on terminal
 usage_info() {
-    echo "Usage: ./dpm_hystory_script.sh [destination file tag] "
-    echo "[regression coefficients] [thresholds]"
-    echo "WARNING: currently the only supported history policy "
-    echo "is the threshold one"
-    echo "	-wokload and destination tag"
-    echo "		string to be attached to default filename" 
-    echo "and denoting the workload under analysis"
-    echo "	-regression coefficients"
-    echo "		numeric values for history policy "
-    echo "using non-linear regression (currently "
-    echo "supporting only 1 value)"
-    echo "	-thresholds"
-    echo "		numeric values for threshold-based "
-    echo "predictive policy (currently 2 values are required)"
+    echo "  WARNING: currently the only supported history policy is the threshold one"
+    echo "  Usage: ./dpm_hystory_script.sh [destination file tag] [regression coefficients] [thresholds]"
+    echo "      -wokload and destination tag"
+    echo "          string to be attached to default filename" 
+    echo "          and denoting the workload under analysis"
+    echo "      -regression coefficients"
+    echo "          numeric values for history policy using non-linear regression"
+    echo "          (currently supporting only 1 value)"
+    echo "      -thresholds"
+    echo "          numeric values for threshold-based predictive policy"
+    echo "          (currently 2 values are required)"
 }
 
 #check number of arguments provided
