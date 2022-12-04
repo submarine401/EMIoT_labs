@@ -47,7 +47,7 @@ make
 #call the dpm_simulator with a variable idle threshold
 #the idle threshold is incremented by one until 
 #it reaches the value of the sleep threshold
-for (( i = 1; i <= $4; i++))
+for (( i = 0; i <= $4; i++))
 do
     prog "$i" $4 Idle threshold phase
     	echo -n "$((i)) " >> dpmres_history_idle_threshold_wl_$1.txt
@@ -62,7 +62,9 @@ done
 #variable sleep_thresholds
 for i in {1..300..1}
 do
-    if [ $i -gt $3 ]
+    #check if the sleep threshold is bigger than
+    #the idle one
+    if [ $i -gt $3 ]	
     then
     	prog "$i" $sleep_threshold Sleep threshold phase
     	echo -n "$((i)) " >> dpmres_history_sleep_threshold_wl_$1.txt
