@@ -1,6 +1,7 @@
 %%  Image Histogram Equalization in HSV space
-%   Simple script to apply histogram equalization to an image and
-%   print key figures by simply changing image path.
+%   Simple script to apply a transformation to an image,
+%   plot the original and the modified version, and print key figures.
+%   The user simply needs to manually specify the image path.
 
 clear
 clc
