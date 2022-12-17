@@ -1,4 +1,8 @@
 function [img_out] = image_reduce_blue(img_in, k)
+    % checks that k is a valid coefficient: 0 <= k <= 1
+    if k<0 || k>1
+        error("Bad k coefficient, must be between 0 and 1")
+    end
     
     reduction_coefficient_B = k;
     reduction_coefficient_R = 1;
