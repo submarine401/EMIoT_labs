@@ -13,7 +13,7 @@ function[d_image] = image_distortion(img1_RGB,img2_RGB)
    W = dimensions(2);
    norm_factor = W*H*sqrt(100^2+2*255^2);
 
-   d_image = epsilon/norm_factor;
+   d_image = epsilon/norm_factor * 100;
 
 end
 
