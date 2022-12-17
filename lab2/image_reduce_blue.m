@@ -1,8 +1,8 @@
-function [img_out] = reduce_blue(img_in)
+function [img_out] = image_reduce_blue(img_in, k)
     
-    reduction_coefficient_B = 0.7;
-    reduction_coefficient_R = 0.95;
-    reduction_coefficient_G = 0.95;
+    reduction_coefficient_B = k;
+    reduction_coefficient_R = 1;
+    reduction_coefficient_G = 1;
     
     R = img_in(:,:,1);
     G = img_in(:,:,2);
@@ -16,7 +16,7 @@ function [img_out] = reduce_blue(img_in)
     img_out(:,:,1) = R;
     img_out(:,:,2) = G;
     img_out(:,:,3) = B;
-    imshow(img_out);
+    %imshow(img_out);
     
 
 end
