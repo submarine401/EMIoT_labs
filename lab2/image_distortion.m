@@ -11,7 +11,13 @@ function[d_image] = image_distortion(img1_RGB,img2_RGB)
    dimensions = size(L);
    H = dimensions(1);
    W = dimensions(2);
+   norm_factor = W*H*sqrt(100^2+2*255^2);
 
-   d_image = epsilon;
+   d_image = epsilon/norm_factor;
 
 end
+
+%%  Comments
+%   This function as is works pretty well in terms of final
+%   perceived image. However, sometimes the image distortion is
+%   our limit of 3%.
