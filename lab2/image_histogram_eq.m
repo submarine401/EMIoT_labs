@@ -1,4 +1,4 @@
-function[eq_image] = image_histogram_eq(img_RGB)
+function[eq_image] = image_histogram_eq(img_RGB, j, k)
     % converts RGB image to HSV space
     img_HSV = rgb2hsv(img_RGB);
 
@@ -17,7 +17,7 @@ function[eq_image] = image_histogram_eq(img_RGB)
     %       color scheme close to original, sometimes the final image is
     %       perceived even better than the original.
     V = img_HSV(:,:,3);
-    V = adapthisteq(V);
+    V = adapthisteq(V, "NumTiles",[j k]);
     img_HSV(:,:,3) = V;
 
 

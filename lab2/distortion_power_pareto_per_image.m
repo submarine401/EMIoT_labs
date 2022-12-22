@@ -41,7 +41,7 @@ for i = 1:8
     A_512=uint8(A_512);
 
     % support for histogram equalization with CLAHE
-    B_256 = image_histogram_eq(A_256(:,:,:,i));
+    B_256 = image_histogram_eq(A_256(:,:,:,i),8,8);
     %compute power and distortion
     p_img = image_power(A_256(:,:,:,i));
     p_reduced = image_power(B_256); 
@@ -50,7 +50,7 @@ for i = 1:8
     p_array_256(i,n) = (p_diff*100)/p_img;
     dist_array_256(i,n) = image_distortion(A_256(:,:,:,i),B_256);
 
-    B_512 = image_histogram_eq(A_512(:,:,:,i));
+    B_512 = image_histogram_eq(A_512(:,:,:,i),8,8);
     %compute power and distortion
     p_img = image_power(A_512(:,:,:,i));
     p_reduced = image_power(B_512); 
@@ -149,6 +149,7 @@ plot(dist_array_blue_512(4,:),p_array_blue_512(4,:),'-om');
 plot(dist_array_blue_512(5,:),p_array_blue_512(5,:),'-oc');
 plot(dist_array_blue_512(6,:),p_array_blue_512(6,:),'-ob');
 plot(dist_array_blue_512(7,:),p_array_blue_512(7,:),'-oy');
+plot(dist_array_blue_512(8,:),p_array_blue_512(7,:),'-ok');
 xlabel('Distortion (%)');
 ylabel('Power savings (%)');
 title('Power savings vs distortion 512x512 - blue reduction');
