@@ -3,15 +3,15 @@
 %clear workspace
 clear all;
 
-%declare coefficients and reference voltage
+%matrices initialization
 A_256 = zeros(256,256,3,7);
 I_cell = zeros(256,256,3,7);
 P_panel = zeros(1,1,3,7);
+%declare coefficients and reference voltage
 V_ref = 15;
 p1 = 4.251e-05;
 p2 = -3.029e-04;
 p3 = 3.024e-05;
-k = 1; %to cycle through the current array
 
 %read 256x256 images only
 i_str = 'images.tar/';
@@ -19,6 +19,10 @@ for i = 1:7
     %store RGB representation of all images in an array
     image_str= [i_str, num2str(i), '.tiff'];
     A_256(:,:,:,i) = imread(image_str);
+    %==================================
+    %keep 'double' type since we deal with
+    %very small values
+    %==================================
     %A_256=uint8(A_256);
 end
 
@@ -35,6 +39,7 @@ for n = 1:size(A_256,4)
     k = 1;
 end
 
+%compute power for each image
 for i = 1:size(I_cell,4)
     Image_curr = I_cell(:,:,:,i);
     P_panel(:,:,:,i) = V_ref*sum(Image_curr,[1 2]);
