@@ -63,7 +63,7 @@ for k = 1:-0.02:0
 
 end
 
-% plot distortion vs power saving graph - histogram equalization 256x256
+% plot distortion vs power saving graph - histogram equalization 512x512
 figure(1)
 plot(avg_distortion, avg_power_saving,'.-b');
 hold on
