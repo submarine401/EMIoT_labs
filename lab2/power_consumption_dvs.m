@@ -1,11 +1,11 @@
 %% Assignment 2 - part 2
 % Cell current calculation section
 % for 256x256 images
-%clear workspace
 
-function I_cell = power_consumption_dvs(V_ref)
+function [A_256,I_cell,P_panel] = power_consumption_dvs(V_ref)
     %matrices initialization
     A_256 = zeros(256,256,3,7);
+    A_256_hsv = zeros(256,256,3,7);
     I_cell = zeros(256,256,3,7);
     P_panel = zeros(1,1,3,7);
     %declare coefficients and reference voltage
@@ -13,6 +13,8 @@ function I_cell = power_consumption_dvs(V_ref)
     p1 = 4.251e-5;
     p2 = -3.029e-04;
     p3 = 3.024e-05;
+    b1 = 0.7;             %for contrast compensation
+    b2 = 120;             %for brightness compensation
     
     %read 256x256 images only
     i_str = 'images.tar/';
@@ -27,8 +29,22 @@ function I_cell = power_consumption_dvs(V_ref)
         %A_256=uint8(A_256);
     end
     
-    %compute cell current for each pixel
+
+    %convert from RGB to HSV
     for n = 1:size(A_256,4)
+        A_256_hsv(:,:,:,n) = rgb2hsv(A_256(:,:,:,n));
+        %scale brightness and contrast of image (DUMMY VALUES AS FOR NOW)
+        A_256_hsv(:,:,3,n) = A_256_hsv(:,:,3,n) * b1;
+        A_256_hsv(:,:,3,n) = A_256_hsv(:,:,3,n) + b2;
+
+        %reconvert back to RGB
+        A_256(:,:,:,n) = hsv2rgb(A_256_hsv(:,:,:,n));
+    end
+
+    %compute cell current for each pixel
+    % cycle through 4-th dimension, then
+    %rows and columns
+    for n = 1:size(A_256,4)  
         for i = 1:size(A_256,1)
             for j = 1:size(A_256,2)
                 I_cell1 = (p1*V_ref*A_256(i,j,:,n))/255;
@@ -36,7 +52,6 @@ function I_cell = power_consumption_dvs(V_ref)
                 I_cell(i,j,:,n) = I_cell1 + I_cell2 + p3;
             end
         end
-        k = 1;
     end
     
     %compute power for each image

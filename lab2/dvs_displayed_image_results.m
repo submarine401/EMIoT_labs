@@ -13,10 +13,11 @@ DISTORTED = 2;
 %reference voltage
 Vdd = 10; %Volts
 %I_cell = zeros(256,256,3,7);
-%call 'power consumption_dvs' function
-I_cell = power_consumption_dvs(Vdd);
 
-for i =1:7
+%call 'power consumption_dvs' function
+[A_256,I_cell, P_panel] = power_consumption_dvs(Vdd);
+
+for i =1:size(I_cell,4)
     %compute saturared and distorted image for each pair
     img_RGB_sat = displayed_image(I_cell(:,:,:,i), Vdd, SATURATED);
     img_RGB_dist = displayed_image(I_cell(:,:,:,i), Vdd, DISTORTED);
@@ -25,5 +26,6 @@ for i =1:7
     image(img_RGB_sat/255);       % display saturated RGB image
     subplot(2,1,2)
     image(img_RGB_dist/255);       % display distorted RGB imagz
-
 end
+
+
