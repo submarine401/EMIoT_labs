@@ -3,19 +3,15 @@
 %of the provided displayed_image() function
 % for all images in the dataset
 
-%load the image_current matrices (output of
-% the "power_consumption_dvs.m" script)
-%load("image_current_matrix.mat");
 
 %mode variables for 'displaed_image()'
 SATURATED = 1;
 DISTORTED = 2;
 %reference voltage
 Vdd = 10; %Volts
-%I_cell = zeros(256,256,3,7);
 
 %call 'power consumption_dvs' function
-[A_256,I_cell, P_panel] = power_consumption_dvs(Vdd);
+[I_cell, P_panel,P_original,dist_arr] = power_consumption_dvs_per_image(Vdd,'5');
 
 for i =1:size(I_cell,4)
     %compute saturared and distorted image for each pair
@@ -25,7 +21,17 @@ for i =1:size(I_cell,4)
     subplot(2,1,1)
     image(img_RGB_sat/255);       % display saturated RGB image
     subplot(2,1,2)
-    image(img_RGB_dist/255);       % display distorted RGB imagz
+    image(img_RGB_dist/255);       % display distorted RGB image
 end
 
+%plot original power (it will be represented as a rect)
+figure(i+1);
+yline(P_original,'r');
+hold on
+%plot(dist_arr,P_mean,'-.b');
+legend('Original image')
+xlabel('Avg distortion');
+ylabel('Avg power');
+grid on
+hold off
 
