@@ -51,6 +51,9 @@ maxPW_1000=max(PW_1000);
 figure(1)
 plot(I_250,PW_250,'.-r')
 hold on
+title('PVcell - Power Curves')
+xlabel('Voltage [V]')
+ylabel('Power [W]')
 plot(I_500,PW_500,'.-k')
 plot(I_750,PW_750,'.-c')
 plot(I_1000,PW_1000,'.-g')

@@ -3,15 +3,15 @@
 % (SOC-dependant)
 
 %import data
-filename1='Battery/1C_discharge_curve.txt';
-filename2='Battery/05C_discharge_curve.txt';
+filename1='../datasheet/Battery/1C_discharge_curve.txt';
+filename2='../datasheet/Battery/05C_discharge_curve.txt';
 C1_data=importdata(filename1,',');
 C05_data=importdata(filename2,',');
 %matrices containing SOC vs battery voltage
 C1_curve = C1_data.data;
 C05_curve = C05_data.data;
 
-%discharge currents (asdefined in the datasheet)
+%discharge currents (as defined in the datasheet)
 % currents are in mA
 C02_curr = 640;
 C05_curr = 1600;
@@ -28,9 +28,11 @@ new_x=0:0.02:1;
 C1_interp = interp1(C1_curve(:,1),C1_curve(:,2),new_x,'spline');
 C05_interp = interp1(C05_curve(:,1),C05_curve(:,2),new_x,'spline');
 
-% plot(C1_curve(:,1), C1_curve(:,2),'.-g')
-% figure(2)
-% plot(new_x, C1_interp,'.-r')
+ plot(C1_curve(:,1), C1_curve(:,2),'.-g')
+ %figure(2)
+ hold on
+ grid on
+ plot(new_x, C1_interp,'.-r')
 
 %extract voltage and resistance for the two curves
 for i = 1:size(C1_interp,2)
