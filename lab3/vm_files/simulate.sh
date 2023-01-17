@@ -1,4 +1,4 @@
-#!/bin/bash
+#!bin/bash
 
 cd simulator
 
@@ -16,3 +16,4 @@ make
 ./bin/run.x
 
 cd ..
+

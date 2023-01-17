@@ -1,0 +1,9 @@
+QUESTIONS
+
+1) Which interpolation is the best?
+2) How to evaluate overfitting? (what is considered as bad)
+3) How to get equation with spline interpolation (if possible)?
+4) Warning: file --- has time modification in the future
+5) Warning: Clock skew detected. Your build may be incomplete.
+6) -bash: ./bin/run.x   Permission denied
+7) Once running by hand simulator/bin/run.x: couldn't open irradiance file.
