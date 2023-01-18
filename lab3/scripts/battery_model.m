@@ -13,10 +13,10 @@ C05_curve = C05_data.data;
 
 %discharge currents (as defined in the datasheet)
 % currents are in mA
-C02_curr = 680;
-C05_curr = 1650;
-C1_curr = 3300;
-C2_curr = 6600;
+C02_curr = 640;
+C05_curr = 1600;
+C1_curr = 3200;
+C2_curr = 6400;
 
 %vector of linearly spaced elements (for interpolation only)
 SOC=0.05:0.05:0.95;
