@@ -29,7 +29,7 @@ void battery_voc::processing()
 
     // Each instant the battery self-discharge a bit
     tmpsoc = (1.0 - SELFDISCH_FACTOR) * tmpsoc;
-	cout << "tmpsoc:: " << tmpsoc << endl;
+	
     // Output the battery SOC
     if(tmpsoc >= 1) // Not let the SOC overflow
     {
