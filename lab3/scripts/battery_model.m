@@ -36,7 +36,7 @@ C05_interp = interp1(C05_curve(:,1),C05_curve(:,2),SOC,'spline');
 
 %extract voltage and resistance for the two curves
 for i = 1:size(C1_interp,2)
-    R(i) = (C05_interp(i)- C1_interp(i))/((C1_curr - C05_curr)*1e-03);
+    R(i) = (C05_interp(i)- C1_interp(i))/(C1_curr - C05_curr);
     V_OC(i) =  C1_interp(i) + R(i)*C1_curr*1e-03;
 end
 %we must express V_OC and R as a FUNCTION OF THE SOC
