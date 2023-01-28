@@ -1,5 +1,6 @@
 #include "bus.h"
 
+//#define TWO_PANELS
 
 void bus::set_attributes() {}
 
@@ -15,7 +16,12 @@ void bus::processing()
                           + i_mic_click_sensor.read()
                           ;
 
+    #ifndef TWO_PANELS
     double tot_scavenged = real_i_pv.read();
+    #endif
+    #ifdef TWO_PANELS
+    double tot_scavenged = real_i_pv1.read() + real_i_pv2.read();
+    #endif
 
     double tot_requested = tot_consumed - tot_scavenged;
 

@@ -3,10 +3,10 @@
 cd simulator
 
 # Python codegen
-cd codegen
-sim_setup_path=$1
-python codegen.py -f ../../${sim_setup_path}
-cd ..
+#cd codegen
+#sim_setup_path=$1
+#python codegen.py -f ../../${sim_setup_path}
+#cd ..
 
 # Compile
 make clean

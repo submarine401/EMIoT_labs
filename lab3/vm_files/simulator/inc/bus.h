@@ -2,6 +2,7 @@
 
 #include "config.h"
 
+//#define TWO_PANELS
 
 SCA_TDF_MODULE(bus)
 {
@@ -11,7 +12,12 @@ SCA_TDF_MODULE(bus)
     sca_tdf::sca_in<double> i_methane_sensor; // Requested current from methane_sensor
     sca_tdf::sca_in<double> i_temperature_sensor; // Requested current from temperature_sensor
     sca_tdf::sca_in<double> i_mic_click_sensor; // Requested current from mic_click_sensor
+    #ifndef TWO_PANELS
     sca_tdf::sca_in<double> real_i_pv; // Provided current from pv panel after conversion
+    #endif
+    #ifdef TWO_PANELS
+    sca_tdf::sca_in<double> real_i_pv1, real_i_pv2; // Provided current from pv panel after conversion
+    #endif
 
     sca_tdf::sca_out<double> i_tot;
 
@@ -22,7 +28,13 @@ SCA_TDF_MODULE(bus)
                    i_methane_sensor("i_methane_sensor"),
                    i_temperature_sensor("i_temperature_sensor"),
                    i_mic_click_sensor("i_mic_click_sensor"),
-                   real_i_pv("real_i_pv") {};
+    #ifndef TWO_PANELS
+                    real_i_pv("real_i_pv") {};
+    #endif
+    #ifdef TWO_PANELS
+                   real_i_pv1("real_i_pv1"),
+                   real_i_pv2("real_i_pv2") {};
+    #endif
 
     void set_attributes();
     void initialize();

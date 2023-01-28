@@ -24,7 +24,7 @@ void converter_pv::processing()
     ideal_power = i_tmp * v_tmp;
 
     // Get efficiency
-    eta = lut_eta.get_val(v_tmp) / 100;
+    eta = lut_eta.get_val(v_tmp);
     
     i_out.write(ideal_power * eta / VREF_BUS);
 }
