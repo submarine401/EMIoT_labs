@@ -35,6 +35,6 @@ xlabel('Time')
 ylabel('Current(mA)')
 axes('Position',[.7 .7 .2 .2])
 box on
-plot(time(85000:134000),real_i_pv(85000:134000),'.-b') %for standard
+plot(time,real_i_pv,'.-b') %for standard
 %parallel sim
 %plot(time,real_i_pv,'.-b')
