@@ -58,4 +58,4 @@ token.txt
 lab1/dpm-simulator/dpm_simulator
 
 # VSCode Setup Files
-#*.json
+*.json
