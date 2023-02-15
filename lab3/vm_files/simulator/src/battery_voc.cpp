@@ -1,7 +1,7 @@
 #include "battery_voc.h"
 
-//#define ONE_BATTERY
-#define TWO_BATTERIES
+#define ONE_BATTERY
+//#define TWO_BATTERIES
 //#define THREE_BATTERIES
 
 

@@ -1,7 +1,8 @@
 #include "bus.h"
 
 //#define ONE_PANEL
-#define TWO_PANELS
+//#define TWO_PANELS
+#define THREE_PANELS
 
 void bus::set_attributes() {}
 
@@ -22,6 +23,9 @@ void bus::processing()
     #endif
     #ifdef TWO_PANELS
     double tot_scavenged = real_i_pv1.read() + real_i_pv2.read();
+    #endif
+    #ifdef THREE_PANELS
+    double tot_scavenged = real_i_pv1.read() + real_i_pv2.read() + real_i_pv3.read();
     #endif
 
     double tot_requested = tot_consumed - tot_scavenged;
