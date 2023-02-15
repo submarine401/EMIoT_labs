@@ -12,7 +12,8 @@
 #include "temperature_sensor.h"
 #include "mic_click_sensor.h"
 
-//#define TWO_PANELS
+//#define ONE_PANEL
+#define TWO_PANELS
 
 
 int sc_main(int argc, char* argv[])
@@ -25,7 +26,7 @@ int sc_main(int argc, char* argv[])
     sca_tdf::sca_signal<double> i_mic_click_sensor; 
     sca_tdf::sca_signal<double> i_mcu;
     sca_tdf::sca_signal<double> i_rf;
-    #ifndef TWO_PANELS
+    #ifdef ONE_PANEL
     sca_tdf::sca_signal<double> v_pv, i_pv, real_i_pv;
     #endif
     #ifdef TWO_PANELS

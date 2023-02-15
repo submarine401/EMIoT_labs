@@ -1,5 +1,9 @@
 #include "battery_voc.h"
 
+//#define ONE_BATTERY
+#define TWO_BATTERIES
+//#define THREE_BATTERIES
+
 
 void battery_voc::set_attributes()
 {
@@ -17,7 +21,15 @@ void battery_voc::processing()
     double tmpcurrent; // Battery current, if negative, the battery is charged 
     
     // Read input current
+    #ifdef ONE_BATTERY
     tmpcurrent = i.read(); // Battery current, if negative, the battery is charged 
+    #endif
+    #ifdef TWO_BATTERIES
+    tmpcurrent = i.read()/2;
+    #endif
+    #ifdef THREE_BATTERIES
+    tmpcurrent = i.read()/3;
+    #endif
 
     /* 
     Compute actual state-of-charge solving the integral:

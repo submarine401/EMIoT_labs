@@ -2,7 +2,8 @@
 
 #include "config.h"
 
-//#define TWO_PANELS
+//#define ONE_PANEL
+#define TWO_PANELS
 
 SCA_TDF_MODULE(bus)
 {
@@ -28,7 +29,7 @@ SCA_TDF_MODULE(bus)
                    i_methane_sensor("i_methane_sensor"),
                    i_temperature_sensor("i_temperature_sensor"),
                    i_mic_click_sensor("i_mic_click_sensor"),
-    #ifndef TWO_PANELS
+    #ifdef ONE_PANEL
                     real_i_pv("real_i_pv") {};
     #endif
     #ifdef TWO_PANELS
