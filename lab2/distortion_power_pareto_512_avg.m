@@ -8,6 +8,14 @@ clc
 clear all
 close all
 
+% max_pow_saving = 0.0;
+% max_pow_saving_i = -1;
+% min_pow_saving = 100.0;
+% min_pow_saving_i = -1;
+% min_distortion = 100.0;
+% min_distortion_pow_sav = -1;
+% min_distortion_i = -1;
+
 %first attempt: use the image_reduce_blue.m script
 %compute number of images in the directory
 a = dir(['images.tar' '/*.tiff']);
@@ -42,7 +50,7 @@ end
 
 %% Blue reduction
 
-for k = 1:-0.02:0
+for k = 1:-0.01:0.8
     for i = 1:8
         B_512 = image_reduce_blue(A_512(:,:,:,i),k);
         %compute power and distortion for 512x512 images
@@ -53,6 +61,7 @@ for k = 1:-0.02:0
         % update avg holding variables
         current_avg_power_saving = current_avg_power_saving + pow_saving_512;
         current_avg_distortion = current_avg_distortion + image_distortion(A_512(:,:,:,i),B_512);
+
     end
 
     % compute avg and add it to avg arrays
@@ -82,7 +91,7 @@ avg_power_saving = [];
 avg_distortion = [];
 
 % loop to apply different values of k for image value reduction
-for k = 1:-0.1:0
+for k = 1:-0.01:0.8
     % apply given reduction coefficient to all images
     for i = 1:8
         B_512 = image_value_scale(A_512(:,:,:,i),k);
@@ -94,6 +103,7 @@ for k = 1:-0.1:0
         % update avg holding variables
         current_avg_power_saving = current_avg_power_saving + pow_saving_512;
         current_avg_distortion = current_avg_distortion + image_distortion(A_512(:,:,:,i),B_512);
+
     end
 
     % compute avg and add it to avg arrays
@@ -129,7 +139,30 @@ for j = 2:1:10
             % update avg holding variables
             current_avg_power_saving = current_avg_power_saving + pow_saving_512;
             current_avg_distortion = current_avg_distortion + image_distortion(A_512(:,:,:,i),B_512);
+
+%             if pow_saving_512>max_pow_saving
+%                 max_pow_saving = pow_saving_512;
+%                 max_pow_saving_i = i;
+%             end
+%             if pow_saving_512<min_pow_saving
+%                 min_pow_saving = pow_saving_512;
+%                 min_pow_saving_i = i;
+%             end
+%             if image_distortion(A_512(:,:,:,i),B_512)<min_distortion
+%                 min_distortion = image_distortion(A_512(:,:,:,i),B_512);
+%                 min_distortion_pow_sav = pow_saving_512;
+%                 min_distortion_i = i;
+%             end
+
         end
+
+%         max_pow_saving
+%         max_pow_saving_i
+%         min_pow_saving
+%         min_pow_saving_i
+%         min_distortion
+%         min_distortion_pow_sav
+%         min_distortion_i
     
         % compute avg and add it to avg arrays
         current_avg_power_saving = current_avg_power_saving/8;
