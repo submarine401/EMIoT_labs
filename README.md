@@ -6,7 +6,7 @@
 This repository contains all the material for the laboratory sessions for the course of Energy Management for IoT,
 held during the first semester of the second year of Ms.C. in Computer Engineering - Embedded Systems track.
 
-# Table of Contents
+## Table of Contents
 1. [Project Description](#Project-Description)
 2. [Getting started](#Getting-Started)
 3. [Contributors](#Contributors)
