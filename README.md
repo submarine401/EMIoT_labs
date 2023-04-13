@@ -1,6 +1,7 @@
 # Energy management for IoT - Lab sessions
 
 [![Development_stopped](https://img.shields.io/badge/development-stopped-red)](https://shields.io/)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ##Introduction
 This repository contains all the material for the laboratory sessions for the course of Energy Management for IoT,
@@ -11,14 +12,14 @@ held during the first semester of the second year of Ms.C. in Computer Engineeri
 2. [Getting started](#Getting-Started)
 3. [Contributors](#Contributors)
 
-##Project description
+## Project description
 
-##Getting started
+## Getting started
 In order to get started with the project it is possible to clone the repository (using GIT) with the following command:
 
 ```
 git clone https://github.com/submarine401/EMIoT_labs.git
 ```
 
-##Contributors
+## Contributors
 Alessio Salta, Diamante Simone Crescenzo
